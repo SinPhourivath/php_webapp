@@ -11,18 +11,26 @@
 </head>
 <body>
     <div class="container">
-
         <div class="row min-vh-100 justify-content-center align-items-center">
             <div class="col-md-5">
                 <div class="card">
                     <h2 class="card-title text-center">Register</h2>
                     <div class="card-body py-md-4">
                         <?php
-                            require("db.php");
+                            session_start();
+                            if(isset($_GET['error'])) {
+                                echo '<div class="alert alert-danger">';
+                                if ($_GET['error'] === "confirmation") {
+                                    echo '<p>Confirm password does not match. Please try again.</p>';
+                                } else if ($_GET['error'] === "email") {
+                                    echo '<p>This email is already associated with an account.</p>';
+                                }
+                                echo '</div>';
+                            }
                         ?>
-                        <form action="register.php" method="post">
+                        <form action="register_handling.php" method="post">
                             <div class="form-group">
-                                <input type="email" class="form-control" name="email" placeholder="Email" value="<?php if(isset($email)) { echo $email; } ?>" required>
+                                <input type="email" class="form-control" name="email" placeholder="Email" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>" required>
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control" name="password" placeholder="Password" required>
@@ -32,7 +40,7 @@
                             </div>
                             <div class="d-flex flex-row align-items-center justify-content-between">
                                 <p>Already have an account? <a href="login.php">Login</a></p>
-                                <input type="submit" class="btn btn-primary" value="Create Account" name="submit">
+                                <input type="submit" class="btn btn-primary" value="Create Account">
                             </div>
                         </form>
                     </div>
