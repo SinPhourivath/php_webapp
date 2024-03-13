@@ -2,9 +2,7 @@
     require 'pdo.php';
     global $pdo;
 
-    session_start();
-    $_SESSION['email'] = $_POST['email'];
-
+    
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $email = $_POST["email"];
         $password = $_POST["password"];
@@ -12,6 +10,8 @@
     }
 
     if ($confirm_password != $password) {
+        session_start();
+        $_SESSION['email'] = $email;
         header('Location: register.php?error=confirmation');
         exit();
     }
@@ -22,7 +22,9 @@
         $stmt->execute([$email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            header('Location: register.php?error=email');
+            session_start();
+            $_SESSION['email'] = $email;
+            header('Location: register.php?error=registered_email');
             exit();
         }
     } catch (PDOException $e) {

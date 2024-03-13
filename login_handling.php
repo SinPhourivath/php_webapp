@@ -1,19 +1,12 @@
 <?php
-    # Establish PDO connection
     require 'pdo.php';
     global $pdo;
 
-    # Login
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $email = $_POST["email"];
         $password = $_POST["password"];
     }
 
-    // Output email and password for debugging
-    echo "Email: " . $email . "<br>";
-    echo "Password: " . $password . "<br>";
-
-    // Check email and password
     try {
         $stmt = $pdo->prepare("SELECT * FROM account WHERE email = ?");
         $stmt->execute([$email]);
@@ -21,9 +14,8 @@
 
         if (!$row || !($password == $row['password'])) {
             session_start();
-            $_SESSION['saved_email'] = $email;
-            $_SESSION['error'] = 'wrong';
-            header('Location: login.php');
+            $_SESSION['email'] = $email;
+            header('Location: login.php?error=wrong_infomation');
             exit();
         }
     } catch (PDOException $e) {

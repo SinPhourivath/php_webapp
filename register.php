@@ -14,23 +14,24 @@
         <div class="row min-vh-100 justify-content-center align-items-center">
             <div class="col-md-5">
                 <div class="card">
-                    <h2 class="card-title text-center">Register</h2>
+                    <h2 class="card-title text-center">Noter</h2>
                     <div class="card-body py-md-4">
                         <?php
                             session_start();
                             if(isset($_GET['error'])) {
                                 echo '<div class="alert alert-danger">';
                                 if ($_GET['error'] === "confirmation") {
-                                    echo '<p>Confirm password does not match. Please try again.</p>';
-                                } else if ($_GET['error'] === "email") {
-                                    echo '<p>This email is already associated with an account.</p>';
+                                    echo "Confirm password does not match. Please try again.";
+                                } else if ($_GET['error'] === "registered_email") {
+                                    echo "This email is already associated with an account.";
                                 }
                                 echo '</div>';
                             }
+                            unset($_GET['error']);
                         ?>
                         <form action="register_handling.php" method="post">
                             <div class="form-group">
-                                <input type="email" class="form-control" name="email" placeholder="Email" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>" required>
+                                <input type="email" class="form-control" name="email" placeholder="Email" value="<?php echo @$_SESSION['email']; ?>" required>
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control" name="password" placeholder="Password" required>
@@ -48,5 +49,11 @@
             </div>
         </div>
     </div>
+    <script>
+    // Use JavaScript to remove the error message from the URL
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href.split("?")[0]);
+    }
+    </script>
 </body>
 </html>
