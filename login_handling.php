@@ -3,7 +3,7 @@
     global $pdo;
 
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        $email = $_POST["email"];
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $password = $_POST["password"];
     }
 

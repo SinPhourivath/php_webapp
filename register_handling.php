@@ -34,5 +34,6 @@
     $query = "INSERT INTO account(id, email, password) VALUES (?, ?, ?)";
     $stmt = $pdo->prepare($query);
     $stmt->execute([null, $email, $password]);
-
+    session_destroy();
+    header('Location: register.php?register=successful');
 ?>

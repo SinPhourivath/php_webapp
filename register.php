@@ -27,7 +27,10 @@
                                 }
                                 echo '</div>';
                             }
-                            unset($_GET['error']);
+                            if(isset($_GET['register']) && $_GET['register'] === "successful") {
+                                echo '<div class="alert alert-success">Register successful!</div>';
+                            }
+                            session_destroy();
                         ?>
                         <form action="register_handling.php" method="post">
                             <div class="form-group">
