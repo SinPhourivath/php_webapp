@@ -13,4 +13,4 @@ CREATE TABLE note (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     account_id INT,
     FOREIGN KEY (account_id) REFERENCES account(id)
-);__
+);
