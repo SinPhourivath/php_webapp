@@ -17,11 +17,13 @@
             $_SESSION['email'] = $email;
             header('Location: login.php?error=wrong_infomation');
             exit();
+        } else {
+            session_start();
+            $_SESSION['id'] = $row['id'];
+            header("Location: dashboard.php");
+            exit();
         }
     } catch (PDOException $e) {
         echo "Query failed: " . $e->getMessage();
     }
-
-    header("Location: dashboard.php");
-    exit();
 ?>
