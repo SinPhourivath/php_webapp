@@ -1,11 +1,17 @@
 <?php
 session_start();
-$note_id = $_GET['note_id']; // Adjust this accordingly
 
-// Include database connection
-include_once 'pdo.php'; // Adjust this according to your file structure
+// Check if the user is logged in
+if (!isset($_SESSION['id'])) {
+    header('Location: login.php');
+    exit();
+}
 
-// Retrieve note information from the database based on the note ID
+$note_id = $_POST['note_id'];
+$_SESSION['note_id'] = $_POST['note_id'];
+
+include_once 'pdo.php';
+
 try {
     $stmt = $pdo->prepare("SELECT * FROM note WHERE id = ?");
     $stmt->execute([$note_id]);

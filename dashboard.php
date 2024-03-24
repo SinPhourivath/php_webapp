@@ -41,7 +41,7 @@ try {
             </div>
             <div class="col">
                 <div class="d-flex justify-content-end">
-                    <div class="btn btn-primary">Sign Out</div>
+                    <a href="login.php" class="btn btn-primary">Sign Out</a>
                 </div>
             </div>
         </div>
@@ -52,11 +52,17 @@ try {
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $note['title']; ?></h5>
                         <p><?php echo $note['created_at']; ?></p>
-                        <p class="card-text"><?php echo truncateText($note['content'], 70); ?></p>
+                        <p class="card-text"><?php echo truncateText($note['content'], 50); ?></p>
                     </div>
                     <div class="d-flex justify-content-end gap-1 p-2">
-                        <a href="edit_note.php"><i class="fas fa-edit"></i></a>
-                        <a href="#"><i class="fas fa-trash"></i></a>
+                        <form id="updateForm_<?php echo $note['id']; ?>" action="edit_note.php" method="post">
+                            <input type="hidden" name="note_id" value="<?php echo $note['id']; ?>">
+                            <i class="fas fa-edit update-icon" data-form="updateForm_<?php echo $note['id']; ?>"></i>
+                        </form>
+                        <form id="deleteForm_<?php echo $note['id']; ?>" action="delete_note.php" method="post">
+                            <input type="hidden" name="note_id" value="<?php echo $note['id']; ?>">
+                            <i class="fas fa-trash delete-icon" data-form="deleteForm_<?php echo $note['id']; ?>"></i>
+                        </form>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -74,3 +80,25 @@ try {
         }
     }
 ?>
+
+<script>
+    // Add click event listener to all elements with 'update-icon' class
+    document.querySelectorAll('.update-icon').forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            // Get the form associated with the icon
+            var formId = this.getAttribute('data-form');
+            var form = document.getElementById(formId);
+            // Submit the form
+            form.submit();
+        });
+    });
+    document.querySelectorAll('.delete-icon').forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            // Get the form associated with the icon
+            var formId = this.getAttribute('data-form');
+            var form = document.getElementById(formId);
+            // Submit the form
+            form.submit();
+        });
+    });
+</script>
